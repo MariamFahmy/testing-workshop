@@ -27,7 +27,7 @@ test('user CRUD', async () => {
   expect(testUser.username).toBe(registerData.username)
 
   // read (unauthenticated)
-  const readUserUnauthenticated = await api
+  const readUserUnauthenticated = await authAPI
     .get(`users/${testUser.id}`)
     .then(getUser)
   expect(readUserUnauthenticated).toEqual(omit(testUser, ['token']))
@@ -39,7 +39,7 @@ test('user CRUD', async () => {
   authAPI.defaults.headers.common.authorization = `Bearer ${testUser.token}`
 
   // read (authenticated)
-  const readUserAuthenticated = await api
+  const readUserAuthenticated = await authAPI
     .get(`users/${testUser.id}`)
     .then(getUser)
   expect(readUserAuthenticated).toEqual(testUser)
